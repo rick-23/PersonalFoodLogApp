@@ -1,0 +1,13 @@
+type userProfile 
+@model(subscriptions: null)
+@auth(
+  rules: [
+    { allow: owner },
+    { allow: private, operations: [read] }
+  ]) {
+  id: ID!
+  name: String!
+  age: Float!
+  height: Float!
+  weight: Float!
+}

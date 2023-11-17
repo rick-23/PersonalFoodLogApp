@@ -1,0 +1,26 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-personalfoodlogapp-dev-95431-authRole",
+      "UnauthRoleArn": "arn:aws:iam::127901130607:role/amplify-personalfoodlogapp-dev-95431-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::127901130607:role/amplify-personalfoodlogapp-dev-95431-authRole",
+      "Region": "us-east-2",
+      "DeploymentBucketName": "amplify-personalfoodlogapp-dev-95431-deployment",
+      "UnauthRoleName": "amplify-personalfoodlogapp-dev-95431-unauthRole",
+      "StackName": "amplify-personalfoodlogapp-dev-95431",
+      "StackId": "arn:aws:cloudformation:us-east-2:127901130607:stack/amplify-personalfoodlogapp-dev-95431/1da3a4a0-46ed-11ec-a31b-02c917c0a4d8",
+      "AmplifyAppId": "d31eucr1s8f1fe"
+    },
+    "categories": {
+      "auth": {
+        "personalfoodlogappbe4e3878": {}
+      },
+      "function": {
+        "personalfoodlogappe55066d3": {
+          "deploymentBucketName": "amplify-personalfoodlogapp-dev-95431-deployment",
+          "s3Key": "amplify-builds/personalfoodlogappe55066d3-61552b6836544373426b-build.zip"
+        }
+      }
+    }
+  }
+}

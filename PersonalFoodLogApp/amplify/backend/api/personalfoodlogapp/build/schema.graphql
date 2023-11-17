@@ -1,0 +1,158 @@
+type userProfile @aws_cognito_user_pools {
+  id: ID!
+  name: String!
+  age: Float!
+  height: Float!
+  weight: Float!
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+  owner: String
+}
+
+enum ModelSortDirection {
+  ASC
+  DESC
+}
+
+type ModeluserProfileConnection @aws_cognito_user_pools {
+  items: [userProfile!]!
+  nextToken: String
+}
+
+input ModelStringInput {
+  ne: String
+  eq: String
+  le: String
+  lt: String
+  ge: String
+  gt: String
+  contains: String
+  notContains: String
+  between: [String]
+  beginsWith: String
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+  size: ModelSizeInput
+}
+
+input ModelIDInput {
+  ne: ID
+  eq: ID
+  le: ID
+  lt: ID
+  ge: ID
+  gt: ID
+  contains: ID
+  notContains: ID
+  between: [ID]
+  beginsWith: ID
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+  size: ModelSizeInput
+}
+
+input ModelIntInput {
+  ne: Int
+  eq: Int
+  le: Int
+  lt: Int
+  ge: Int
+  gt: Int
+  between: [Int]
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+}
+
+input ModelFloatInput {
+  ne: Float
+  eq: Float
+  le: Float
+  lt: Float
+  ge: Float
+  gt: Float
+  between: [Float]
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+}
+
+input ModelBooleanInput {
+  ne: Boolean
+  eq: Boolean
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+}
+
+input ModelSizeInput {
+  ne: Int
+  eq: Int
+  le: Int
+  lt: Int
+  ge: Int
+  gt: Int
+  between: [Int]
+}
+
+input ModeluserProfileFilterInput {
+  id: ModelIDInput
+  name: ModelStringInput
+  age: ModelFloatInput
+  height: ModelFloatInput
+  weight: ModelFloatInput
+  and: [ModeluserProfileFilterInput]
+  or: [ModeluserProfileFilterInput]
+  not: ModeluserProfileFilterInput
+}
+
+enum ModelAttributeTypes {
+  binary
+  binarySet
+  bool
+  list
+  map
+  number
+  numberSet
+  string
+  stringSet
+  _null
+}
+
+type Query {
+  getUserProfile(id: ID!): userProfile @aws_cognito_user_pools
+  listUserProfiles(filter: ModeluserProfileFilterInput, limit: Int, nextToken: String): ModeluserProfileConnection @aws_cognito_user_pools
+}
+
+input CreateUserProfileInput {
+  id: ID
+  name: String!
+  age: Float!
+  height: Float!
+  weight: Float!
+}
+
+input UpdateUserProfileInput {
+  id: ID!
+  name: String
+  age: Float
+  height: Float
+  weight: Float
+}
+
+input DeleteUserProfileInput {
+  id: ID!
+}
+
+type Mutation {
+  createUserProfile(input: CreateUserProfileInput!, condition: ModeluserProfileConditionInput): userProfile @aws_cognito_user_pools
+  updateUserProfile(input: UpdateUserProfileInput!, condition: ModeluserProfileConditionInput): userProfile @aws_cognito_user_pools
+  deleteUserProfile(input: DeleteUserProfileInput!, condition: ModeluserProfileConditionInput): userProfile @aws_cognito_user_pools
+}
+
+input ModeluserProfileConditionInput {
+  name: ModelStringInput
+  age: ModelFloatInput
+  height: ModelFloatInput
+  weight: ModelFloatInput
+  and: [ModeluserProfileConditionInput]
+  or: [ModeluserProfileConditionInput]
+  not: ModeluserProfileConditionInput
+}

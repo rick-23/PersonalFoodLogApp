@@ -1,0 +1,11 @@
+{
+  "AppSyncApiName": "personalfoodlogapp",
+  "DynamoDBBillingMode": "PAY_PER_REQUEST",
+  "DynamoDBEnableServerSideEncryption": false,
+  "AuthCognitoUserPoolId": {
+    "Fn::GetAtt": [
+      "authpersonalfoodlogappbe4e3878",
+      "Outputs.UserPoolId"
+    ]
+  }
+}

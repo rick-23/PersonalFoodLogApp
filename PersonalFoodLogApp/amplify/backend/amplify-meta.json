@@ -1,0 +1,133 @@
+{
+  "providers": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-personalfoodlogapp-dev-95431-authRole",
+      "UnauthRoleArn": "arn:aws:iam::127901130607:role/amplify-personalfoodlogapp-dev-95431-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::127901130607:role/amplify-personalfoodlogapp-dev-95431-authRole",
+      "Region": "us-east-2",
+      "DeploymentBucketName": "amplify-personalfoodlogapp-dev-95431-deployment",
+      "UnauthRoleName": "amplify-personalfoodlogapp-dev-95431-unauthRole",
+      "StackName": "amplify-personalfoodlogapp-dev-95431",
+      "StackId": "arn:aws:cloudformation:us-east-2:127901130607:stack/amplify-personalfoodlogapp-dev-95431/1da3a4a0-46ed-11ec-a31b-02c917c0a4d8",
+      "AmplifyAppId": "d31eucr1s8f1fe"
+    }
+  },
+  "auth": {
+    "personalfoodlogappbe4e3878": {
+      "service": "Cognito",
+      "providerPlugin": "awscloudformation",
+      "dependsOn": [],
+      "customAuth": false,
+      "frontendAuthConfig": {
+        "socialProviders": [],
+        "usernameAttributes": [],
+        "signupAttributes": [
+          "EMAIL"
+        ],
+        "passwordProtectionSettings": {
+          "passwordPolicyMinLength": 8,
+          "passwordPolicyCharacters": []
+        },
+        "mfaConfiguration": "OFF",
+        "mfaTypes": [
+          "SMS"
+        ],
+        "verificationMechanisms": [
+          "EMAIL"
+        ]
+      },
+      "providerMetadata": {
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-personalfoodlogapp-dev-95431-deployment/amplify-cfn-templates/auth/personalfoodlogappbe4e3878-cloudformation-template.json",
+        "logicalId": "authpersonalfoodlogappbe4e3878"
+      },
+      "lastPushTimeStamp": "2021-11-30T17:11:35.641Z",
+      "output": {
+        "UserPoolId": "us-east-2_gVi2h82Is",
+        "AppClientIDWeb": "4j4j3gghuuafej63papk7k3rpv",
+        "AppClientID": "3gcpus1pdvaflvqhbid7flq9uk",
+        "IdentityPoolId": "us-east-2:ee0e4994-ffb7-4ab5-8ce0-ea3ae389372f",
+        "UserPoolArn": "arn:aws:cognito-idp:us-east-2:127901130607:userpool/us-east-2_gVi2h82Is",
+        "IdentityPoolName": "personalfoodlogappbe4e3878_identitypool_be4e3878__dev",
+        "UserPoolName": "personalfoodlogappbe4e3878_userpool_be4e3878"
+      },
+      "lastPushDirHash": "v4A2EmqYR4ONkEX3MtgGUkAmg6A="
+    }
+  },
+  "function": {
+    "personalfoodlogappe55066d3": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda",
+      "lastBuildTimeStamp": "2021-11-18T13:30:52.151Z",
+      "lastBuildType": "PROD",
+      "lastPackageTimeStamp": "2021-11-18T13:30:52.173Z",
+      "distZipFilename": "personalfoodlogappe55066d3-61552b6836544373426b-build.zip",
+      "s3Bucket": {
+        "deploymentBucketName": "amplify-personalfoodlogapp-dev-95431-deployment",
+        "s3Key": "amplify-builds/personalfoodlogappe55066d3-61552b6836544373426b-build.zip"
+      },
+      "providerMetadata": {
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-personalfoodlogapp-dev-95431-deployment/amplify-cfn-templates/function/personalfoodlogappe55066d3-cloudformation-template.json",
+        "logicalId": "functionpersonalfoodlogappe55066d3"
+      },
+      "lastPushTimeStamp": "2021-11-30T17:11:35.644Z",
+      "output": {
+        "Region": "us-east-2",
+        "Arn": "arn:aws:lambda:us-east-2:127901130607:function:personalfoodlogappe55066d3-dev",
+        "Name": "personalfoodlogappe55066d3-dev",
+        "LambdaExecutionRole": "personalfoodlogappLambdaRole249d002f-dev"
+      },
+      "lastPushDirHash": "LEiimcpXJusLv9bxCEg1ocbtygg="
+    }
+  },
+  "api": {
+    "personalfoodlogapp": {
+      "service": "AppSync",
+      "providerPlugin": "awscloudformation",
+      "output": {
+        "authConfig": {
+          "defaultAuthentication": {
+            "authenticationType": "API_KEY",
+            "apiKeyConfig": {
+              "apiKeyExpirationDays": 7
+            }
+          },
+          "additionalAuthenticationProviders": [
+            {
+              "authenticationType": "AMAZON_COGNITO_USER_POOLS",
+              "userPoolConfig": {
+                "userPoolId": "authpersonalfoodlogappbe4e3878"
+              }
+            }
+          ]
+        },
+        "GraphQLAPIIdOutput": "vow6vusdlbbupbnakr7spq64za",
+        "GraphQLAPIEndpointOutput": "https://6lbp4mwz6fd3lbxx6wu5cyrrnu.appsync-api.us-east-2.amazonaws.com/graphql",
+        "GraphQLAPIKeyOutput": "da2-eggzlwcf25ar7mnjkwfoe3efxu"
+      },
+      "lastPushTimeStamp": "2021-11-30T17:11:35.648Z",
+      "providerMetadata": {
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-personalfoodlogapp-dev-95431-deployment/amplify-cfn-templates/api/cloudformation-template.json",
+        "logicalId": "apipersonalfoodlogapp"
+      },
+      "lastPushDirHash": "U4Fw0SOE9Vr8AHXLhvIH6Po7mHs="
+    }
+  },
+  "storage": {
+    "s3142f651d": {
+      "service": "S3",
+      "providerPlugin": "awscloudformation",
+      "dependsOn": [],
+      "providerMetadata": {
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-personalfoodlogapp-dev-95431-deployment/amplify-cfn-templates/storage/cloudformation-template.json",
+        "logicalId": "storages3142f651d"
+      },
+      "lastPushTimeStamp": "2021-11-30T17:11:35.682Z",
+      "output": {
+        "BucketName": "personalfoodlogapp6e061ca7cb834c3e9af6f16468f3e95431-dev",
+        "Region": "us-east-2"
+      },
+      "lastPushDirHash": "LU7oqbQ6tSIWR32j9priVTTxhLs="
+    }
+  }
+}

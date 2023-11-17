@@ -1,0 +1,14 @@
+{
+    "CreateAPIKey": 1,
+    "AppSyncApiName": "personalfoodlogapp",
+    "DynamoDBBillingMode": "PAY_PER_REQUEST",
+    "DynamoDBEnableServerSideEncryption": false,
+    "AuthCognitoUserPoolId": {
+        "Fn::GetAtt": [
+            "authpersonalfoodlogappbe4e3878",
+            "Outputs.UserPoolId"
+        ]
+    },
+    "S3DeploymentBucket": "amplify-personalfoodlogapp-dev-95431-deployment",
+    "S3DeploymentRootKey": "amplify-appsync-files/77b4865a37bd659b6139424cdfc619b1056fee04"
+}

@@ -1,0 +1,31 @@
+{
+  "bucketName": "personalfoodlogapp6e061ca7cb834c3e9af6f16468f3e",
+  "selectedGuestPermissions": [],
+  "selectedAuthenticatedPermissions": [
+    "s3:PutObject",
+    "s3:GetObject",
+    "s3:ListBucket",
+    "s3:DeleteObject"
+  ],
+  "unauthRoleName": {
+    "Ref": "UnauthRoleName"
+  },
+  "authRoleName": {
+    "Ref": "AuthRoleName"
+  },
+  "s3PrivatePolicy": "Private_policy_142f651d",
+  "s3ProtectedPolicy": "Protected_policy_142f651d",
+  "s3PublicPolicy": "Public_policy_142f651d",
+  "s3ReadPolicy": "read_policy_142f651d",
+  "s3UploadsPolicy": "Uploads_policy_142f651d",
+  "authPolicyName": "s3_amplify_142f651d",
+  "unauthPolicyName": "s3_amplify_142f651d",
+  "AuthenticatedAllowList": "ALLOW",
+  "GuestAllowList": "DISALLOW",
+  "s3PermissionsAuthenticatedPrivate": "s3:PutObject,s3:GetObject,s3:DeleteObject",
+  "s3PermissionsAuthenticatedProtected": "s3:PutObject,s3:GetObject,s3:DeleteObject",
+  "s3PermissionsAuthenticatedPublic": "s3:PutObject,s3:GetObject,s3:DeleteObject",
+  "s3PermissionsAuthenticatedUploads": "s3:PutObject",
+  "s3PermissionsGuestPublic": "DISALLOW",
+  "s3PermissionsGuestUploads": "DISALLOW"
+}

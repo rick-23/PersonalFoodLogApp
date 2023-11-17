@@ -1,0 +1,14 @@
+{
+  "resourceName": "s3142f651d",
+  "policyUUID": "142f651d",
+  "bucketName": "personalfoodlogapp6e061ca7cb834c3e9af6f16468f3e",
+  "storageAccess": "auth",
+  "guestAccess": [],
+  "authAccess": [
+    "CREATE_AND_UPDATE",
+    "READ",
+    "DELETE"
+  ],
+  "triggerFunction": "NONE",
+  "groupAccess": {}
+}
