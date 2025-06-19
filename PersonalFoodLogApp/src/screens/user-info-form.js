@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   View,
   StyleSheet,
@@ -7,37 +7,31 @@ import {
   Dimensions,
   ImageBackground,
   Pressable,
-  Text
+  Text,
+  TextInput,
 } from "react-native";
-import { Button } from "react-native-elements";
-import t from "tcomb-form-native";
-import _ from "lodash";
+import { useForm, Controller } from "react-hook-form";
+
 const { width } = Dimensions.get("window");
 
-const Form = t.form.Form;
-const form_stylesheet = _.cloneDeep(t.form.Form.stylesheet);
-
-form_stylesheet.textbox.normal.fontSize = 25;
-form_stylesheet.textbox.normal.color = "#ff9300";
-form_stylesheet.textbox.normal.borderColor = "#ff9300";
-form_stylesheet.textbox.normal.borderWidth = 3;
-
 const UserInfoFormScreen = () => {
-  const User = t.struct({
-    name: t.String,
-    age: t.Number,
-    height: t.Number,
-    weight: t.Number,
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    defaultValues: {
+      name: "",
+      age: "",
+      height: "",
+      weight: "",
+    },
   });
-  const [form, setForm] = useState(null);
-  const [initialValues, setInitialValues] = useState({});
 
-  const options = {
-    stylesheet: form_stylesheet,
+  const onSubmit = (data) => {
+    console.log("User Info Submitted:", data);
   };
-  const handleSubmit = async () => {
-    // Saving product details
-  };
+
   return (
     <ImageBackground
       source={require("../../images/image2.png")}
@@ -46,14 +40,97 @@ const UserInfoFormScreen = () => {
       <View style={styles.container}>
         <SafeAreaView style={styles.userInfoView}>
           <ScrollView>
-            <Form
-              style={styles.userform}
-              ref={(c) => setForm(c)}
-              value={initialValues}
-              type={User}
-              options={options}
+            <Text style={styles.label}>Name</Text>
+            <Controller
+              control={control}
+              rules={{ required: "Name is required" }}
+              render={({ field: { onChange, onBlur, value } }) => (
+                <TextInput
+                  style={styles.input}
+                  placeholder="Enter your name"
+                  placeholderTextColor="#ccc"
+                  onBlur={onBlur}
+                  onChangeText={onChange}
+                  value={value}
+                />
+              )}
+              name="name"
             />
-             <Pressable style={styles.button} onPress={handleSubmit}>
+            {errors.name && <Text style={styles.errorText}>{errors.name.message}</Text>}
+
+            <Text style={styles.label}>Age</Text>
+            <Controller
+              control={control}
+              rules={{
+                required: "Age is required",
+                pattern: {
+                  value: /^\d+$/,
+                  message: "Age must be a number",
+                },
+              }}
+              render={({ field: { onChange, value } }) => (
+                <TextInput
+                  style={styles.input}
+                  placeholder="Enter your age"
+                  placeholderTextColor="#ccc"
+                  keyboardType="numeric"
+                  onChangeText={onChange}
+                  value={value}
+                />
+              )}
+              name="age"
+            />
+            {errors.age && <Text style={styles.errorText}>{errors.age.message}</Text>}
+
+            <Text style={styles.label}>Height (cm)</Text>
+            <Controller
+              control={control}
+              rules={{
+                required: "Height is required",
+                pattern: {
+                  value: /^\d+$/,
+                  message: "Height must be a number",
+                },
+              }}
+              render={({ field: { onChange, value } }) => (
+                <TextInput
+                  style={styles.input}
+                  placeholder="Enter your height"
+                  placeholderTextColor="#ccc"
+                  keyboardType="numeric"
+                  onChangeText={onChange}
+                  value={value}
+                />
+              )}
+              name="height"
+            />
+            {errors.height && <Text style={styles.errorText}>{errors.height.message}</Text>}
+
+            <Text style={styles.label}>Weight (kg)</Text>
+            <Controller
+              control={control}
+              rules={{
+                required: "Weight is required",
+                pattern: {
+                  value: /^\d+$/,
+                  message: "Weight must be a number",
+                },
+              }}
+              render={({ field: { onChange, value } }) => (
+                <TextInput
+                  style={styles.input}
+                  placeholder="Enter your weight"
+                  placeholderTextColor="#ccc"
+                  keyboardType="numeric"
+                  onChangeText={onChange}
+                  value={value}
+                />
+              )}
+              name="weight"
+            />
+            {errors.weight && <Text style={styles.errorText}>{errors.weight.message}</Text>}
+
+            <Pressable style={styles.button} onPress={handleSubmit(onSubmit)}>
               <Text style={styles.buttonText}>Save</Text>
             </Pressable>
           </ScrollView>
@@ -65,11 +142,7 @@ const UserInfoFormScreen = () => {
 
 const styles = StyleSheet.create({
   userInfoView: {
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "center",
     paddingTop: 15,
-    height: "auto",
   },
   container: {
     alignItems: "center",
@@ -77,13 +150,23 @@ const styles = StyleSheet.create({
     width: width,
     paddingVertical: 20,
   },
-  userform: {
-    width: "100%",
-    height: "auto",
-    justifyContent: "center",
-    alignItems: "center",
-    padding: 5,
-    marginTop: 5,
+  label: {
+    fontSize: 18,
+    fontWeight: "600",
+    color: "#fff",
+    marginLeft: 10,
+    marginTop: 10,
+  },
+  input: {
+    backgroundColor: "#fff",
+    borderColor: "#ff9300",
+    borderWidth: 3,
+    borderRadius: 8,
+    fontSize: 18,
+    padding: 10,
+    marginHorizontal: 10,
+    marginBottom: 10,
+    color: "#000",
   },
   button: {
     alignItems: "center",
@@ -93,14 +176,17 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     elevation: 3,
     backgroundColor: "#ff9300",
-    margin: 10
+    margin: 10,
   },
   buttonText: {
     fontSize: 16,
-    lineHeight: 21,
     fontWeight: "bold",
-    letterSpacing: 0.25,
     color: "#FFF",
+  },
+  errorText: {
+    color: "red",
+    marginLeft: 10,
+    marginBottom: 10,
   },
 });
 
