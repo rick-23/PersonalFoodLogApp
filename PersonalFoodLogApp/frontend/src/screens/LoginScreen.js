@@ -7,12 +7,14 @@ const LoginScreen = ({ navigation }) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
-    const handleLogin = () => {
-        if (!email || !password) {
-            Alert.alert('Error', 'Please enter both email and password.');
-            return;
+    const handleLogin = async () => {
+        try {
+            await loginUser(email, password);
+            // Navigate to main app screen or update auth state
+            navigation.replace('Home'); // or your main screen
+        } catch (err) {
+            Alert.alert('Login Failed', err.message);
         }
-        login(email, password);
     };
 
     return (

@@ -8,18 +8,14 @@ const RegisterScreen = ({ navigation }) => {
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
 
-    const handleRegister = () => {
-        if (!email || !password || !confirmPassword) {
-            Alert.alert('Error', 'Please fill out all fields.');
-            return;
+    const handleRegister = async () => {
+        try {
+            await register(email, password);
+            Alert.alert('Success', 'Registration successful! Please log in.');
+            navigation.replace('Login');
+        } catch (err) {
+            Alert.alert('Registration Failed', err.message);
         }
-
-        if (password !== confirmPassword) {
-            Alert.alert('Error', 'Passwords do not match.');
-            return;
-        }
-
-        register(email, password);
     };
 
     return (
