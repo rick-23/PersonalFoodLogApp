@@ -9,9 +9,9 @@ const LoginScreen = ({ navigation }) => {
 
     const handleLogin = async () => {
         try {
-            await loginUser(email, password);
-            // Navigate to main app screen or update auth state
-            navigation.replace('Home'); // or your main screen
+            await login(email, password);
+            Alert.alert('Success', 'Login successful!');
+            navigation.replace('HomeScreen');
         } catch (err) {
             Alert.alert('Login Failed', err.message);
         }

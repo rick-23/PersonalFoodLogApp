@@ -26,7 +26,7 @@ const Home = () => {
         <View style={styles.body}>
           <Pressable
             style={styles.button}
-            onPress={() => navigation.navigate("AddUserInfo")}
+            onPress={() => navigation.navigate("UserInfoFormScreen")}
           >
             <Text style={styles.buttonText}>Add Personal Info</Text>
           </Pressable>
