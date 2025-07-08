@@ -11,12 +11,13 @@
     "test": "jest"
   },
   "jest": {
-    "preset": "jest-expo",
+    "preset": "react-native",
     "setupFilesAfterEnv": [
+      "<rootDir>/jestSetup.js",
       "@testing-library/jest-native/extend-expect"
     ],
     "transformIgnorePatterns": [
-      "node_modules/(?!(jest-)?react-native|@react-native|@react-navigation|expo-modules-core)"
+      "node_modules/(?!(jest-)?react-native|@react-native|@react-navigation|expo-modules-core|expo-app-loading|expo-constants|expo-file-system|expo-font|expo-linking|expo-splash-screen|expo-status-bar|expo-updates)"
     ]
   },
   "dependencies": {

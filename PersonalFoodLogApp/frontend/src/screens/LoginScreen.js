@@ -38,7 +38,7 @@ const LoginScreen = ({ navigation }) => {
                 autoCapitalize="none"
                 autoCorrect={false}
             />
-            <Button title="Login" onPress={handleLogin} />
+            <Button title="Login" onPress={handleLogin} accessibilityLabel="login-button" />
             <View style={styles.spacer} />
             <Button title="Go to Register" onPress={() => navigation.navigate('Register')} />
         </View>
