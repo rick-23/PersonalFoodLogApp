@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { Camera } from 'expo-camera';
+import * as Permissions from 'expo-permissions';
 
 export default class OpenCamera extends React.Component {
   state = {
@@ -55,13 +56,13 @@ export default class OpenCamera extends React.Component {
   }
 }
 
-  // takePicture = async() => {
-  //   if (this.camera) {
-  //     const options = { quality: 0.5, base64: true };
-  //     const data = await this.camera.takePictureAsync(options);
-  //     console.log(data.uri);
-  //   }
-  // };
+// takePicture = async() => {
+//   if (this.camera) {
+//     const options = { quality: 0.5, base64: true };
+//     const data = await this.camera.takePictureAsync(options);
+//     console.log(data.uri);
+//   }
+// };
 
 // const styles = StyleSheet.create({
 //   container: {

@@ -4,7 +4,7 @@ import { API_URL } from '../config/apiConfig';
 
 const AuthContext = createContext();
 
-export const AuthProvider = ({ children }) => {
+const AuthProvider = ({ children }) => {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
 
     const login = async (email, password) => {
@@ -43,3 +43,4 @@ export const AuthProvider = ({ children }) => {
 };
 
 export const useAuth = () => useContext(AuthContext);
+export { AuthProvider, AuthContext };

@@ -48,9 +48,9 @@ const RegisterScreen = ({ navigation }) => {
                 autoCapitalize="none"
                 autoCorrect={false}
             />
-            <Button title="Register" onPress={handleRegister} />
+            <Button title="Register" onPress={handleRegister} accessibilityLabel="register-button" />
             <View style={styles.spacer} />
-            <Button title="Go to Login" onPress={() => navigation.navigate('Login')} />
+            <Button title="Go to Login" onPress={() => navigation.navigate('Login')} accessibilityLabel="go-to-login" />
         </View>
     );
 };
