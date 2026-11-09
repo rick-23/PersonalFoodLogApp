@@ -1,75 +1,61 @@
 import React, { useState } from 'react';
-import { View, Text, Button, TextInput, StyleSheet, Alert } from 'react-native';
+import { KeyboardAvoidingView, Platform, ScrollView, Text, View } from 'react-native';
 import { useAuth } from '../context/authContext';
+import { Button, Field, Input, styles } from '../components/ui';
 
 const LoginScreen = ({ navigation }) => {
     const { login } = useAuth();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [error, setError] = useState(null);
+    const [busy, setBusy] = useState(false);
 
     const handleLogin = async () => {
+        setError(null);
+        setBusy(true);
         try {
-            await login(email, password);
-            Alert.alert('Success', 'Login successful!');
-            navigation.replace('HomeScreen');
+            // On success the app switches to the main screens by itself.
+            await login(email.trim(), password);
         } catch (err) {
-            Alert.alert('Login Failed', err.message);
+            setError(err.message);
+            setBusy(false);
         }
     };
 
     return (
-        <View style={styles.container}>
-            <Text style={styles.title}>Login</Text>
-            <TextInput
-                style={styles.input}
-                placeholder="Email"
-                value={email}
-                onChangeText={setEmail}
-                keyboardType="email-address"
-                autoCapitalize="none"
-                autoCorrect={false}
-            />
-            <TextInput
-                style={styles.input}
-                placeholder="Password"
-                value={password}
-                onChangeText={setPassword}
-                secureTextEntry
-                autoCapitalize="none"
-                autoCorrect={false}
-            />
-            <Button title="Login" onPress={handleLogin} accessibilityLabel="login-button" />
-            <View style={styles.spacer} />
-            <Button title="Go to Register" onPress={() => navigation.navigate('Register')} />
-        </View>
+        <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
+            <ScrollView contentContainerStyle={[styles.screen, { justifyContent: 'center' }]} keyboardShouldPersistTaps="handled">
+                <Text style={[styles.title, { textAlign: 'center' }]}>Personal Food Log</Text>
+                <Text style={[styles.subtitle, { textAlign: 'center', marginBottom: 24 }]}>Sign in to log your meals</Text>
+                <Field label="Email">
+                    <Input
+                        placeholder="Email"
+                        value={email}
+                        onChangeText={setEmail}
+                        keyboardType="email-address"
+                        autoCapitalize="none"
+                        autoCorrect={false}
+                        autoComplete="email"
+                    />
+                </Field>
+                <Field label="Password">
+                    <Input
+                        placeholder="Password"
+                        value={password}
+                        onChangeText={setPassword}
+                        secureTextEntry
+                        autoCapitalize="none"
+                        autoCorrect={false}
+                        onSubmitEditing={handleLogin}
+                    />
+                </Field>
+                {error ? <Text style={styles.error}>{error}</Text> : null}
+                <Button title={busy ? 'Signing in…' : 'Login'} onPress={handleLogin} disabled={busy || !email || !password} accessibilityLabel="login-button" />
+                <View style={{ height: 8 }} />
+                <Button title="Create an account" variant="secondary" onPress={() => navigation.navigate('Register')} />
+            </ScrollView>
+        </KeyboardAvoidingView>
     );
 };
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        justifyContent: 'center',
-        padding: 24,
-        backgroundColor: '#fff',
-    },
-    title: {
-        fontSize: 28,
-        fontWeight: 'bold',
-        marginBottom: 24,
-        textAlign: 'center',
-    },
-    input: {
-        height: 48,
-        borderColor: '#ccc',
-        borderWidth: 1,
-        borderRadius: 8,
-        paddingHorizontal: 12,
-        marginBottom: 16,
-        fontSize: 16,
-    },
-    spacer: {
-        height: 12,
-    },
-});
 
 export default LoginScreen;
