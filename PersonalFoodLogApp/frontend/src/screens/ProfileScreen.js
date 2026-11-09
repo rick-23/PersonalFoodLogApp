@@ -1,52 +1,24 @@
 import React from 'react';
-import { View, Text, Button, StyleSheet } from 'react-native';
+import { ScrollView, Text, View } from 'react-native';
 import { useAuth } from '../context/authContext';
+import { Button, Card, styles } from '../components/ui';
 
-const ProfileScreen = () => {
+const ProfileScreen = ({ navigation }) => {
     const { user, logout } = useAuth();
 
     return (
-        <View style={styles.container}>
-            <Text style={styles.title}>Profile</Text>
-            <View style={styles.infoContainer}>
+        <ScrollView contentContainerStyle={styles.screen}>
+            <Text style={[styles.title, { marginBottom: 16 }]}>Profile</Text>
+            <Card>
                 <Text style={styles.label}>Email:</Text>
-                <Text style={styles.value}>{user?.email || 'Not available'}</Text>
-            </View>
-            {/* You can add more user details here if available */}
-            <View style={styles.spacer} />
-            <Button title="Logout" onPress={logout} />
-        </View>
+                <Text style={styles.subtitle}>{user?.email || 'Not available'}</Text>
+            </Card>
+            <Button title="Edit personal info" variant="secondary" onPress={() => navigation?.navigate('PersonalInfo')} />
+            <Button title="Meal reminders" variant="secondary" onPress={() => navigation?.navigate('Reminders')} />
+            <View style={{ height: 24 }} />
+            <Button title="Logout" variant="danger" onPress={logout} />
+        </ScrollView>
     );
 };
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        justifyContent: 'center',
-        padding: 24,
-        backgroundColor: '#fff',
-    },
-    title: {
-        fontSize: 28,
-        fontWeight: 'bold',
-        marginBottom: 24,
-        textAlign: 'center',
-    },
-    infoContainer: {
-        marginBottom: 16,
-    },
-    label: {
-        fontSize: 16,
-        fontWeight: '600',
-    },
-    value: {
-        fontSize: 16,
-        marginTop: 4,
-        color: '#333',
-    },
-    spacer: {
-        height: 24,
-    },
-});
 
 export default ProfileScreen;

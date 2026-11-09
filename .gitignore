@@ -3,3 +3,7 @@ package-lock.json
 dist
 .env
 .DS_Store
+
+# Expo
+.expo/
+web-build/

@@ -1,26 +1,25 @@
 {
   "expo": {
-    "name": "PersonalFoodLogApp",
+    "name": "Personal Food Log",
     "slug": "PersonalFoodLogApp",
     "version": "1.0.0",
-    "sdkVersion": "43.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "updates": {
-      "fallbackToCacheTimeout": 0
-    },
     "assetBundlePatterns": [
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.rick23.personalfoodlog"
     },
     "android": {
+      "package": "com.rick23.personalfoodlog",
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
@@ -28,6 +27,21 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "plugins": [
+      [
+        "expo-notifications",
+        {
+          "color": "#ff9300"
+        }
+      ],
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "Allow Personal Food Log to use your photos so you can attach them to meals.",
+          "cameraPermission": "Allow Personal Food Log to use the camera so you can photograph your meals."
+        }
+      ]
+    ]
   }
 }

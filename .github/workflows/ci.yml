@@ -12,6 +12,21 @@ jobs:
     defaults:
       run:
         working-directory: PersonalFoodLogApp/backend
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: foodlog_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+    env:
+      TEST_DATABASE_URL: postgres://postgres:postgres@localhost:5432/foodlog_test
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -33,3 +48,7 @@ jobs:
           node-version: 20
       - run: npm install
       - run: npm test
+      # Bundles the whole app, catching broken imports the unit tests don't load.
+      - run: npx expo export --platform web
+        env:
+          EXPO_OFFLINE: 1

@@ -1,45 +1,82 @@
-import React, { createContext, useState, useContext } from 'react';
+import React, { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { API_URL } from '../config/apiConfig';
+import { api, setAuthToken, setUnauthorizedHandler } from '../api/client';
 
-const AuthContext = createContext();
+const TOKEN_KEY = 'token';
+const USER_KEY = 'user';
 
+const AuthContext = createContext(null);
+
+/**
+ * Keeps the login across app restarts: the token is saved on the device and
+ * checked against the server on start-up. If the server can't be reached the
+ * saved session is still used, so the app works with a flaky connection.
+ */
 const AuthProvider = ({ children }) => {
-    const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const [status, setStatus] = useState('loading'); // 'loading' | 'signedOut' | 'signedIn'
+    const [user, setUser] = useState(null);
 
-    const login = async (email, password) => {
-        const response = await fetch(`${API_URL}/auth/login`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ email, password }),
-        });
-        if (!response.ok) throw new Error('Login failed');
-        const data = await response.json();
-        await AsyncStorage.setItem('token', data.token);
-        setIsAuthenticated(true);
-        return data.token;
-    };
+    const clearSession = useCallback(async () => {
+        setAuthToken(null);
+        setUser(null);
+        setStatus('signedOut');
+        await AsyncStorage.multiRemove([TOKEN_KEY, USER_KEY]);
+    }, []);
 
-    const register = async (email, password) => {
-        const response = await fetch(`${API_URL}/auth/register`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ email, password }),
-        });
-        if (!response.ok) throw new Error('Registration failed');
+    useEffect(() => {
+        setUnauthorizedHandler(() => { clearSession(); });
+        let cancelled = false;
+        (async () => {
+            const [[, token], [, savedUser]] = await AsyncStorage.multiGet([TOKEN_KEY, USER_KEY]);
+            if (!token) {
+                if (!cancelled) setStatus('signedOut');
+                return;
+            }
+            setAuthToken(token);
+            try {
+                const { user: current } = await api.get('/auth/me');
+                if (cancelled) return;
+                setUser(current);
+                setStatus('signedIn');
+                await AsyncStorage.setItem(USER_KEY, JSON.stringify(current));
+            } catch (err) {
+                if (cancelled) return;
+                if (err.status === 401) {
+                    await clearSession();
+                } else {
+                    // Offline: trust the saved session.
+                    setUser(savedUser ? JSON.parse(savedUser) : null);
+                    setStatus('signedIn');
+                }
+            }
+        })();
+        return () => { cancelled = true; };
+    }, [clearSession]);
+
+    const login = useCallback(async (email, password) => {
+        const { token, user: current } = await api.post('/auth/login', { email, password });
+        setAuthToken(token);
+        await AsyncStorage.multiSet([[TOKEN_KEY, token], [USER_KEY, JSON.stringify(current)]]);
+        setUser(current);
+        setStatus('signedIn');
+        return current;
+    }, []);
+
+    const register = useCallback(async (email, password) => {
+        await api.post('/auth/register', { email, password });
         return true;
-    };
+    }, []);
 
-    const logout = async () => {
-        await AsyncStorage.removeItem('token');
-        setIsAuthenticated(false);
-    };
+    const value = useMemo(() => ({
+        status,
+        user,
+        isAuthenticated: status === 'signedIn',
+        login,
+        register,
+        logout: clearSession,
+    }), [status, user, login, register, clearSession]);
 
-    return (
-        <AuthContext.Provider value={{ isAuthenticated, login, register, logout }}>
-            {children}
-        </AuthContext.Provider>
-    );
+    return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
 
 export const useAuth = () => useContext(AuthContext);
